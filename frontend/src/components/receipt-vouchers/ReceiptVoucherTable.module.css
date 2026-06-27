@@ -1,0 +1,27 @@
+.voucherNumber {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.creationCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.creationCell span:first-child {
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.cellMuted {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.amount {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.875rem;
+}

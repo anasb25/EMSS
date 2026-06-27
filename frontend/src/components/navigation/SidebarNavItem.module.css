@@ -1,0 +1,114 @@
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 2.375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  color: var(--color-sidebar-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-inverse);
+}
+
+.active {
+  background: var(--color-sidebar-active);
+  color: var(--color-text-inverse);
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.25rem;
+  border-radius: 0 2px 2px 0;
+  background: var(--color-sidebar-active-border);
+}
+
+.nested {
+  min-height: 2.125rem;
+  padding-left: 2.375rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-sidebar-text-muted);
+}
+
+.nested.active {
+  color: var(--color-text-inverse);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nested.active::before {
+  height: 1rem;
+  background: rgba(59, 130, 246, 0.7);
+}
+
+.linkContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.linkContent svg {
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.active .linkContent svg {
+  opacity: 1;
+  color: #93c5fd;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.group > summary {
+  list-style: none;
+}
+
+.group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+  margin-top: 0.125rem;
+  padding-left: 0.375rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  margin-left: 1.125rem;
+}
+
+.chevron {
+  transition: transform var(--transition-fast);
+  opacity: 0.5;
+}
+
+.group[open] .chevron {
+  transform: rotate(180deg);
+  opacity: 0.8;
+}
+
+.group[open] > summary {
+  color: var(--color-text-inverse);
+}

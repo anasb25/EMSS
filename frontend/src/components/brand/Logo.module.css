@@ -1,0 +1,84 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mark {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sm {
+  height: 2.75rem;
+}
+
+.md {
+  height: 3.75rem;
+}
+
+.lg {
+  height: 4.75rem;
+}
+
+.xl {
+  height: 6rem;
+}
+
+.withWordmark.sm {
+  height: 2.75rem;
+}
+
+.withWordmark.md {
+  height: 4rem;
+}
+
+.withWordmark.lg {
+  height: 5rem;
+}
+
+.withWordmark.xl {
+  height: 6.5rem;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  line-height: 1;
+}
+
+.wordmark strong {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+}
+
+.wordmark span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.withWordmark.xl .wordmark strong {
+  font-size: 1.5rem;
+}
+
+.withWordmark.xl .wordmark span {
+  font-size: 0.8125rem;
+}
+
+.light .wordmark strong,
+.light .wordmark span {
+  color: white;
+}
+
+.light .wordmark span {
+  opacity: 0.7;
+}

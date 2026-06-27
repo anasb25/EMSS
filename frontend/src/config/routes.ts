@@ -1,0 +1,48 @@
+export const ROUTES = {
+  login: '/login',
+  dashboard: '/dashboard',
+  customers: '/customers',
+  customerLedgers: '/customers/ledgers',
+  customerLedger: '/customers/:customerId/ledger',
+  vendors: '/vendors',
+  jobCards: '/job-cards',
+  products: '/products',
+  invoices: '/invoices',
+  invoiceDetail: '/invoices/:invoiceId',
+  bills: '/bills',
+  billDetail: '/bills/:billId',
+  books: {
+    root: '/books',
+    cash: '/books/cash',
+    bank: '/books/bank',
+  },
+  reports: {
+    root: '/reports',
+    profit: '/reports/profit',
+    vat: '/reports/vat',
+    balanceSheet: '/reports/balance-sheet',
+  },
+  sales: {
+    analytics: '/sales/analytics',
+    collections: '/accounting/sales',
+  },
+  purchases: {
+    analytics: '/purchases/analytics',
+  },
+  accounting: {
+    root: '/accounting',
+    cash: '/books/cash',
+    sales: '/accounting/sales',
+    accountsPayable: '/accounting/accounts-payable',
+    accountsReceivable: '/accounting/accounts-receivable',
+    receiptVouchers: '/accounting/receipt-vouchers',
+    expenses: '/accounting/expenses',
+    profit: '/reports/profit',
+    vat: '/reports/vat',
+    overview: '/accounting/overview',
+  },
+  settings: {
+    root: '/settings',
+    users: '/settings/users',
+  },
+} as const

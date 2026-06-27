@@ -1,0 +1,291 @@
+.sheetWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dateNav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dateNavButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.dateNavButton:hover {
+  background: var(--color-surface-hover);
+}
+
+.dateInput {
+  min-height: 2.25rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.summaryCard {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.summaryLabel {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.summaryValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.positive {
+  color: #15803d;
+}
+
+.negative {
+  color: var(--color-danger);
+}
+
+.tableScroll {
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.sheetTable {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.sheetTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.625rem 0.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.sheetTable tbody td {
+  padding: 0.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.sheetTable tbody tr:hover {
+  background: #f8fafc;
+}
+
+.sheetTable tbody tr.openingRow {
+  background: #f0fdf4;
+}
+
+.sheetTable tbody tr.readOnlyRow {
+  background: #fafafa;
+}
+
+.cellInput,
+.cellSelect {
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: transparent;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+}
+
+.cellInput:hover,
+.cellSelect:hover {
+  border-color: #cbd5e1;
+  background: #fff;
+}
+
+.cellInput:focus,
+.cellSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
+}
+
+.cellInput:disabled,
+.cellSelect:disabled {
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.cellInputReadOnly {
+  color: var(--color-text-secondary);
+}
+
+.serialCell {
+  width: 3rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.balanceCell {
+  text-align: right;
+  font-weight: 600;
+  padding-right: 0.75rem !important;
+  white-space: nowrap;
+}
+
+.amountCell {
+  min-width: 6.5rem;
+}
+
+.descCell {
+  min-width: 12rem;
+}
+
+.accountCell {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  min-width: 8rem;
+}
+
+.salesPersonCell {
+  min-width: 8rem;
+}
+
+.remarksCell {
+  min-width: 9rem;
+}
+
+.actionsCell {
+  width: 5.5rem;
+  text-align: center;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
+}
+
+.iconButtonDanger:hover {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.typeBadge {
+  display: inline-flex;
+  padding: 0.125rem 0.375rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.footerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.addRowBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--color-border);
+  background: #f8fafc;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+  .summaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+}

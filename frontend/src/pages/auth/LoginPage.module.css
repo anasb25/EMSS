@@ -1,0 +1,59 @@
+.wrapper {
+  width: min(100%, 26rem);
+}
+
+.brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.25rem;
+  padding: 0.5rem 0;
+}
+
+.card {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border);
+}
+
+.intro {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.intro h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+}
+
+.intro p {
+  margin: 0.5rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  margin-top: 1.5rem;
+}
+
+.error {
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+}
+
+.footer {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-text-subtle);
+}

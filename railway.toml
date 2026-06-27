@@ -1,0 +1,21 @@
+# EMSS monorepo — Railway deployment guide
+#
+# Create three Railway services from this repository:
+# 1. PostgreSQL (Railway plugin)
+# 2. Backend API
+#    - Root Directory: backend
+#    - Config file: /backend/railway.toml
+#    - Variables: DATABASE_URL (from Postgres), JWT_SECRET, NODE_ENV=production, FRONTEND_URL
+# 3. Frontend
+#    - Root Directory: frontend
+#    - Config file: /frontend/railway.toml
+#    - Variables: VITE_API_URL=https://<your-backend-service-url>
+#
+# Default login after deploy: admin / admin123 (change immediately in production)
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

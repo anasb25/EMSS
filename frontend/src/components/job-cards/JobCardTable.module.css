@@ -1,0 +1,80 @@
+.detailsCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 11rem;
+}
+
+.detailLine {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.detailLabel {
+  flex-shrink: 0;
+  min-width: 4.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+}
+
+.detailValue {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.detailsCell .detailLine:first-child .detailValue {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.customerName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.creationCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 9rem;
+}
+
+.creationCell strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.creationCell span {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.totalCell {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.375rem;
+}
+
+.actionsColumn {
+  width: 1%;
+  white-space: nowrap;
+}

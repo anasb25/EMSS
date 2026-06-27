@@ -1,0 +1,35 @@
+.descriptionCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.cellMuted {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.amountIn {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.amountOut {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.balance {
+  font-weight: 600;
+}

@@ -1,0 +1,20 @@
+.indicator {
+  display: inline-grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.complete {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  border: 1px solid #a7f3d0;
+}
+
+.pending {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border: 1px solid #fecaca;
+}

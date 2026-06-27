@@ -1,0 +1,9 @@
+.invoiceNumber {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.total {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

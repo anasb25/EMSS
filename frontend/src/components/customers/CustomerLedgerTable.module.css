@@ -1,0 +1,48 @@
+.reference {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.descriptionCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.overdue {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.debit {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.credit {
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.balance {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.muted {
+  color: var(--color-text-subtle);
+}
+
+.actionsColumn {
+  width: 7rem;
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
