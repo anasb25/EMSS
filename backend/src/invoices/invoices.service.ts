@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, In, Repository } from 'typeorm';
 import { JobCard } from '../job-cards/entities/job-card.entity';
 import {
   formatEmssNumber,
@@ -15,10 +15,16 @@ import {
   applyCreatedDateRangeFilter,
 } from '../common/utils/date-range-query.util';
 import { QueryInvoicesDto } from './dto/query-invoices.dto';
+import { UpdateInvoiceWorkflowDto } from './dto/update-invoice-workflow.dto';
 import { InvoiceItem } from './entities/invoice-item.entity';
 import { Invoice } from './entities/invoice.entity';
 import { ReceivablesService } from '../receivables/receivables.service';
+import {
+  Receivable,
+  ReceivableStatus,
+} from '../receivables/entities/receivable.entity';
 import { InvoicesPaginatedResult } from './interfaces/invoices-paginated-result.interface';
+import { InvoiceWorkflowUpdateResult } from './interfaces/invoice-workflow-update-result.interface';
 
 const INVOICE_SEQUENCE_START = 1000;
 const DEFAULT_DUE_DAYS = 30;
@@ -36,6 +42,8 @@ export class InvoicesService {
     private readonly invoicesRepository: Repository<Invoice>,
     @InjectRepository(JobCard)
     private readonly jobCardsRepository: Repository<JobCard>,
+    @InjectRepository(Receivable)
+    private readonly receivablesRepository: Repository<Receivable>,
     private readonly receivablesService: ReceivablesService,
   ) {}
 
@@ -75,6 +83,8 @@ export class InvoicesService {
 
     const [data, total] = await qb.getManyAndCount();
 
+    await this.attachReceivables(data);
+
     return {
       data,
       meta: {
@@ -107,7 +117,94 @@ export class InvoicesService {
       throw new NotFoundException(`Invoice with id ${id} not found`);
     }
 
-    return invoice;
+    const receivable = await this.receivablesRepository.findOne({
+      where: { invoiceId: id },
+    });
+
+    return Object.assign(invoice, {
+      receivable: receivable
+        ? { id: receivable.id, status: receivable.status }
+        : null,
+    });
+  }
+
+  async updateWorkflow(
+    id: string,
+    dto: UpdateInvoiceWorkflowDto,
+  ): Promise<InvoiceWorkflowUpdateResult> {
+    const invoice = await this.invoicesRepository.findOne({
+      where: { id },
+      relations: { jobCard: true },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException(`Invoice with id ${id} not found`);
+    }
+
+    if (!invoice.jobCard) {
+      throw new BadRequestException('Invoice is not linked to a job card.');
+    }
+
+    const receivable = await this.receivablesRepository.findOne({
+      where: { invoiceId: id },
+    });
+
+    if (receivable?.status === ReceivableStatus.PAID) {
+      throw new BadRequestException(
+        'Cannot edit workflow for an invoice that has already been paid.',
+      );
+    }
+
+    const allComplete =
+      dto.transport &&
+      dto.logistics &&
+      dto.isImport &&
+      dto.isExport &&
+      dto.freight;
+
+    const jobCardId = invoice.jobCardId;
+    const jobCardNumber = invoice.jobCard.jobCardNumber;
+
+    if (!allComplete) {
+      await this.invoicesRepository.manager.transaction(async (manager) => {
+        await manager.getRepository(JobCard).update(jobCardId, {
+          transport: dto.transport,
+          logistics: dto.logistics,
+          isImport: dto.isImport,
+          isExport: dto.isExport,
+          freight: dto.freight,
+          isOpen: true,
+        });
+
+        if (receivable) {
+          await manager.getRepository(Receivable).delete(receivable.id);
+        }
+
+        await manager.getRepository(Invoice).delete(invoice.id);
+      });
+
+      return {
+        voided: true,
+        jobCardId,
+        jobCardNumber,
+      };
+    }
+
+    await this.jobCardsRepository.update(jobCardId, {
+      transport: dto.transport,
+      logistics: dto.logistics,
+      isImport: dto.isImport,
+      isExport: dto.isExport,
+      freight: dto.freight,
+      isOpen: false,
+    });
+
+    return {
+      voided: false,
+      jobCardId,
+      jobCardNumber,
+      invoice: await this.findOne(id),
+    };
   }
 
   async createFromJobCard(
@@ -209,6 +306,34 @@ export class InvoicesService {
     );
 
     return this.findOne(savedId);
+  }
+
+  private async attachReceivables(invoices: Invoice[]): Promise<void> {
+    if (!invoices.length) {
+      return;
+    }
+
+    const receivables = await this.receivablesRepository.find({
+      where: { invoiceId: In(invoices.map((invoice) => invoice.id)) },
+      select: {
+        id: true,
+        invoiceId: true,
+        status: true,
+      },
+    });
+
+    const receivableByInvoiceId = new Map(
+      receivables.map((receivable) => [receivable.invoiceId, receivable]),
+    );
+
+    for (const invoice of invoices) {
+      const receivable = receivableByInvoiceId.get(invoice.id);
+      Object.assign(invoice, {
+        receivable: receivable
+          ? { id: receivable.id, status: receivable.status }
+          : null,
+      });
+    }
   }
 
   private ensureWorkflowComplete(jobCard: JobCard): void {

@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Body, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import type { AuthUserPayload } from '../auth/auth.service';
 import { QueryInvoicesDto } from './dto/query-invoices.dto';
+import { UpdateInvoiceWorkflowDto } from './dto/update-invoice-workflow.dto';
 import { InvoicesService } from './invoices.service';
 
 @UseGuards(JwtAuthGuard)
@@ -26,5 +27,13 @@ export class InvoicesController {
     @CurrentUser() user: AuthUserPayload,
   ) {
     return this.invoicesService.createFromJobCard(jobCardId, user.id);
+  }
+
+  @Patch(':id/workflow')
+  updateWorkflow(
+    @Param('id') id: string,
+    @Body() updateInvoiceWorkflowDto: UpdateInvoiceWorkflowDto,
+  ) {
+    return this.invoicesService.updateWorkflow(id, updateInvoiceWorkflowDto);
   }
 }

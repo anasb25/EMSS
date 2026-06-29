@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Eye } from 'lucide-react'
+import { Eye, Pencil } from 'lucide-react'
 import { ActionIconButton } from '@/components/ui/ActionIconButton'
 import { Table } from '@/components/ui/Table'
 import {
@@ -14,9 +14,15 @@ interface InvoiceTableProps {
   invoices: Invoice[]
   isLoading?: boolean
   onView: (invoice: Invoice) => void
+  onEdit?: (invoice: Invoice) => void
 }
 
-export function InvoiceTable({ invoices, isLoading = false, onView }: InvoiceTableProps) {
+export function InvoiceTable({
+  invoices,
+  isLoading = false,
+  onView,
+  onEdit,
+}: InvoiceTableProps) {
   const columns = useMemo<TableColumn<Invoice>[]>(
     () => [
       {
@@ -53,17 +59,28 @@ export function InvoiceTable({ invoices, isLoading = false, onView }: InvoiceTab
         header: 'Actions',
         align: 'right',
         render: (invoice) => (
-          <ActionIconButton
-            label="View invoice"
-            variant="view"
-            onClick={() => onView(invoice)}
-          >
-            <Eye size={15} />
-          </ActionIconButton>
+          <div className={styles.actions}>
+            {onEdit && invoice.receivable?.status !== 'paid' && invoice.jobCard ? (
+              <ActionIconButton
+                label="Edit invoice workflow"
+                variant="edit"
+                onClick={() => onEdit(invoice)}
+              >
+                <Pencil size={15} />
+              </ActionIconButton>
+            ) : null}
+            <ActionIconButton
+              label="View invoice"
+              variant="view"
+              onClick={() => onView(invoice)}
+            >
+              <Eye size={15} />
+            </ActionIconButton>
+          </div>
         ),
       },
     ],
-    [onView],
+    [onEdit, onView],
   )
 
   return (

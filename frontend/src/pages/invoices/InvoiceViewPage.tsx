@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ArrowLeft, Printer } from 'lucide-react'
+import { ArrowLeft, Pencil, Printer } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchInvoice } from '@/api/invoices'
 import { JobCardDetailsModal } from '@/components/job-cards/JobCardDetailsModal'
@@ -48,12 +48,26 @@ export function InvoiceViewPage() {
     window.print()
   }
 
+  function handleEdit() {
+    if (!invoiceId) return
+    navigate(ROUTES.invoiceEdit.replace(':invoiceId', invoiceId))
+  }
+
+  const canEditWorkflow =
+    invoice?.jobCard && invoice.receivable?.status !== 'paid'
+
   return (
     <ModulePage
       title="Invoice"
       description="View invoice details, customer information, and product pricing."
       actions={
         <div className={styles.actions}>
+          {invoice && canEditWorkflow ? (
+            <Button type="button" variant="secondary" onClick={handleEdit}>
+              <Pencil size={16} />
+              Edit
+            </Button>
+          ) : null}
           {invoice ? (
             <Button type="button" variant="secondary" onClick={handlePrint}>
               <Printer size={16} />

@@ -81,6 +81,10 @@ export function InvoicesPage() {
     setPage(1)
   }
 
+  function handleEdit(invoice: Invoice) {
+    navigate(ROUTES.invoiceEdit.replace(':invoiceId', invoice.id))
+  }
+
   function handleView(invoice: Invoice) {
     navigate(`${ROUTES.invoices}/${invoice.id}`)
   }
@@ -117,7 +121,12 @@ export function InvoicesPage() {
             />
           </div>
 
-          <InvoiceTable invoices={invoices} isLoading={isLoading} onView={handleView} />
+          <InvoiceTable
+            invoices={invoices}
+            isLoading={isLoading}
+            onView={handleView}
+            onEdit={handleEdit}
+          />
 
           {!isLoading ? (
             <Pagination meta={meta} onPageChange={setPage} />

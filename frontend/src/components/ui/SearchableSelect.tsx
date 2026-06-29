@@ -1,7 +1,8 @@
-import { useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { ChevronDown, Search } from 'lucide-react'
 import { FloatingPortal } from '@/components/ui/FloatingPortal'
 import { useFloatingPanel } from '@/hooks/useFloatingPanel'
+import { useListboxKeyboard } from '@/hooks/useListboxKeyboard'
 import styles from './SearchableSelect.module.css'
 
 export interface SearchableSelectOption {
@@ -37,6 +38,8 @@ export function SearchableSelect({
 }: SearchableSelectProps) {
   const fieldId = useId()
   const controlRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([])
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState('')
 
@@ -57,7 +60,23 @@ export function SearchableSelect({
     onChange(option.value, option)
     setQuery('')
     setIsOpen(false)
+    inputRef.current?.focus()
   }
+
+  const { highlightedIndex, setHighlightedIndex, handleKeyDown } = useListboxKeyboard({
+    isOpen,
+    setIsOpen,
+    itemCount: options.length,
+    onSelect: (index) => {
+      const option = options[index]
+      if (option) handleSelect(option)
+    },
+    onOpen: () => onSearchChange(query),
+  })
+
+  useEffect(() => {
+    optionRefs.current[highlightedIndex]?.scrollIntoView({ block: 'nearest' })
+  }, [highlightedIndex, isOpen, options])
 
   const displayValue = isOpen ? query : selectedLabel ?? ''
 
@@ -80,6 +99,7 @@ export function SearchableSelect({
       >
         <Search size={16} className={styles.searchIcon} />
         <input
+          ref={inputRef}
           id={fieldId}
           type="text"
           className={styles.input}
@@ -90,6 +110,11 @@ export function SearchableSelect({
             setIsOpen(true)
             onSearchChange(query)
           }}
+          onKeyDown={handleKeyDown}
+          role="combobox"
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
           autoComplete="off"
         />
         <button
@@ -109,14 +134,23 @@ export function SearchableSelect({
               <p className={styles.empty}>Searching...</p>
             ) : options.length ? (
               <ul className={styles.list} role="listbox">
-                {options.map((option) => (
+                {options.map((option, index) => (
                   <li key={option.value}>
                     <button
+                      ref={(element) => {
+                        optionRefs.current[index] = element
+                      }}
                       type="button"
+                      role="option"
+                      aria-selected={option.value === value}
                       className={[
                         styles.option,
                         option.value === value ? styles.optionSelected : '',
-                      ].join(' ')}
+                        index === highlightedIndex ? styles.optionHighlighted : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      onMouseEnter={() => setHighlightedIndex(index)}
                       onClick={() => handleSelect(option)}
                     >
                       <span>{option.label}</span>

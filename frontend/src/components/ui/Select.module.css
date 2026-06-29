@@ -122,6 +122,16 @@
   font-weight: 600;
 }
 
+.optionHighlighted {
+  background: var(--color-surface-hover);
+  outline: 2px solid rgba(var(--color-primary-rgb), 0.35);
+  outline-offset: -2px;
+}
+
+.optionHighlighted.optionSelected {
+  background: var(--color-primary-soft);
+}
+
 .invalid {
   border-color: var(--color-danger);
 }

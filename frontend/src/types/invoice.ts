@@ -6,6 +6,11 @@ export interface InvoiceCreator {
   username: string
 }
 
+export interface InvoiceReceivableSummary {
+  id: number
+  status: 'unpaid' | 'paid'
+}
+
 export interface InvoiceLineItem {
   id: string
   productId: string
@@ -32,9 +37,37 @@ export interface Invoice {
   dueDate: string | null
   createdById: string | null
   createdBy?: InvoiceCreator | null
+  receivable?: InvoiceReceivableSummary | null
   items: InvoiceLineItem[]
   createdAt: string
   updatedAt: string
+}
+
+export interface InvoiceWorkflowFormData {
+  transport: boolean
+  logistics: boolean
+  isImport: boolean
+  isExport: boolean
+  freight: boolean
+}
+
+export interface InvoiceWorkflowUpdateResult {
+  voided: boolean
+  jobCardId: string
+  jobCardNumber: string | null
+  invoice?: Invoice
+}
+
+export function invoiceWorkflowFromJobCard(
+  jobCard: NonNullable<Invoice['jobCard']>,
+): InvoiceWorkflowFormData {
+  return {
+    transport: jobCard.transport,
+    logistics: jobCard.logistics,
+    isImport: jobCard.isImport,
+    isExport: jobCard.isExport,
+    freight: jobCard.freight,
+  }
 }
 
 export function formatInvoiceMoney(value: number): string {

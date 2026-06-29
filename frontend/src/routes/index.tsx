@@ -14,6 +14,7 @@ import { BillsPage } from '@/pages/bills/BillsPage'
 import { BillViewPage } from '@/pages/bills/BillViewPage'
 import { InvoicesPage } from '@/pages/invoices/InvoicesPage'
 import { InvoiceViewPage } from '@/pages/invoices/InvoiceViewPage'
+import { InvoiceEditPage } from '@/pages/invoices/InvoiceEditPage'
 import { AccountingOverviewPage } from '@/pages/accounting/AccountingOverviewPage'
 import { BankBookPage } from '@/pages/books/BankBookPage'
 import { CashPage } from '@/pages/accounting/CashPage'
@@ -52,6 +53,7 @@ export function AppRoutes() {
           <Route path={ROUTES.jobCards} element={<JobCardsPage />} />
           <Route path={ROUTES.products} element={<ProductsPage />} />
           <Route path={ROUTES.invoices} element={<InvoicesPage />} />
+          <Route path={ROUTES.invoiceEdit} element={<InvoiceEditPage />} />
           <Route path={ROUTES.invoiceDetail} element={<InvoiceViewPage />} />
           <Route path={ROUTES.bills} element={<BillsPage />} />
           <Route path={ROUTES.billDetail} element={<BillViewPage />} />

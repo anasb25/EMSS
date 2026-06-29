@@ -139,6 +139,16 @@
   color: var(--color-primary);
 }
 
+.optionHighlighted {
+  background: var(--color-surface-hover);
+  outline: 2px solid rgba(var(--color-primary-rgb), 0.35);
+  outline-offset: -2px;
+}
+
+.optionHighlighted.optionSelected {
+  background: var(--color-primary-soft);
+}
+
 .empty {
   margin: 0;
   padding: 0.875rem 1rem;

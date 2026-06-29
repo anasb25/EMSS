@@ -2,8 +2,11 @@ import { apiRequest } from '@/api/http'
 import type { JobCard, JobCardEditFormData, JobCardFormData } from '@/types/job-card'
 import type { PaginatedResponse } from '@/types/pagination'
 
+export type JobCardStatusFilter = 'open' | 'closed' | 'all'
+
 export interface FetchJobCardsParams {
   search?: string
+  status?: JobCardStatusFilter
   page?: number
   limit?: number
 }
@@ -41,6 +44,7 @@ function buildQuery(params: FetchJobCardsParams): string {
   const query = new URLSearchParams()
 
   if (params.search?.trim()) query.set('search', params.search.trim())
+  if (params.status && params.status !== 'all') query.set('status', params.status)
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
 

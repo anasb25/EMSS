@@ -36,6 +36,7 @@ export class JobCardsService {
   async findAll(query: QueryJobCardsDto): Promise<JobCardsPaginatedResult> {
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
+    const status = query.status ?? 'open';
 
     const qb = this.jobCardsRepository
       .createQueryBuilder('jobCard')
@@ -56,6 +57,12 @@ export class JobCardsService {
           OR product.name ILIKE :search)`,
         { search },
       );
+    }
+
+    if (status === 'open') {
+      qb.andWhere('jobCard.isOpen = :isOpen', { isOpen: true });
+    } else if (status === 'closed') {
+      qb.andWhere('jobCard.isOpen = :isOpen', { isOpen: false });
     }
 
     qb.orderBy('jobCard.createdAt', 'DESC');

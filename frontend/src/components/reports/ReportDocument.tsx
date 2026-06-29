@@ -8,6 +8,7 @@ interface ReportDocumentProps {
   meta?: string[]
   currencyNote?: string
   footerNote?: string
+  className?: string
   children: ReactNode
 }
 
@@ -17,6 +18,7 @@ export function ReportDocument({
   meta = [],
   currencyNote = 'All amounts in AED unless stated otherwise.',
   footerNote,
+  className,
   children,
 }: ReportDocumentProps) {
   const generatedOn = new Date().toLocaleString('en-GB', {
@@ -28,7 +30,7 @@ export function ReportDocument({
   })
 
   return (
-    <article className={`printOnly reportPrintArea ${styles.document}`}>
+    <article className={`printOnly reportPrintArea ${styles.document} ${className ?? ''}`}>
       <header className={styles.header}>
         <div className={styles.companyRow}>
           <img src={emssLogo} alt="EMSS" className={styles.logo} />

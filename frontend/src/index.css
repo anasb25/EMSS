@@ -170,6 +170,7 @@ a {
     width: 100%;
     padding: 0;
     background: #fff;
+    box-sizing: border-box;
   }
 
   .screenOnly {

@@ -61,6 +61,7 @@ export function JobCardsPage() {
     try {
       const response = await fetchJobCards({
         search: debouncedSearch,
+        status: 'open',
         page,
         limit: PAGE_SIZE,
       })

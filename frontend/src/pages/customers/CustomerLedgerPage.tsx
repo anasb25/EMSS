@@ -8,8 +8,10 @@ import {
 } from '@/api/receipt-vouchers'
 import { fetchReceivable, recordReceipt } from '@/api/receivables'
 import { CustomerLedgerTable } from '@/components/customers/CustomerLedgerTable'
+import { CustomerLedgerPrintDocument } from '@/components/customers/CustomerLedgerPrintDocument'
 import { ModulePage } from '@/components/common/ModulePage'
 import { PeriodFilters } from '@/components/common/PeriodFilters'
+import { ReportPrintButton } from '@/components/reports/ReportPrintButton'
 import { ReceiptVoucherDetailsModal } from '@/components/receipt-vouchers/ReceiptVoucherDetailsModal'
 import { RecordReceiptForm } from '@/components/receivables/RecordReceiptForm'
 import { Button } from '@/components/ui/Button'
@@ -166,10 +168,13 @@ export function CustomerLedgerPage() {
       title={customer ? `${customer.name} — Ledger` : 'Customer Ledger'}
       description="Statement of charges, payments, and running balance for this customer."
       actions={
-        <Button variant="secondary" onClick={() => navigate(ROUTES.customers)}>
-          <ArrowLeft size={16} strokeWidth={2} />
-          Customers
-        </Button>
+        <div className={styles.headerActions}>
+          <ReportPrintButton disabled={isLoading || !ledger} />
+          <Button variant="secondary" onClick={() => navigate(ROUTES.customers)}>
+            <ArrowLeft size={16} strokeWidth={2} />
+            Customers
+          </Button>
+        </div>
       }
     >
       <div className={styles.page}>
@@ -302,6 +307,17 @@ export function CustomerLedgerPage() {
           />
         </section>
       </div>
+
+      {ledger ? (
+        <CustomerLedgerPrintDocument
+          ledger={ledger}
+          periodFilter={periodFilter}
+          dateRange={dateRange}
+          statusFilter={statusFilter}
+          typeFilter={typeFilter}
+          search={debouncedSearch}
+        />
+      ) : null}
 
       <ReceiptVoucherDetailsModal
         voucher={voucherViewModal.data ?? null}

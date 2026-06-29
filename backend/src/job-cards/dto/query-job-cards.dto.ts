@@ -1,10 +1,14 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class QueryJobCardsDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @IsOptional()
+  @IsIn(['open', 'closed', 'all'])
+  status?: 'open' | 'closed' | 'all';
 
   @IsOptional()
   @Type(() => Number)

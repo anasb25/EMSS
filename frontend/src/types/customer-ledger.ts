@@ -92,6 +92,30 @@ export function ledgerEntryTypeLabel(type: CustomerLedgerEntryType): string {
   }
 }
 
+export function ledgerStatusFilterLabel(status: CustomerLedgerStatusFilter): string {
+  switch (status) {
+    case 'unpaid':
+      return 'Unpaid'
+    case 'paid':
+      return 'Paid'
+    default:
+      return 'All'
+  }
+}
+
+export function ledgerTypeFilterLabel(type: CustomerLedgerTypeFilter): string {
+  switch (type) {
+    case 'invoice':
+      return 'Invoices'
+    case 'manual_receivable':
+      return 'Receivables'
+    case 'payment':
+      return 'Payments'
+    default:
+      return 'All types'
+  }
+}
+
 export function customerLedgerPath(customerId: string): string {
   return `/customers/${customerId}/ledger`
 }

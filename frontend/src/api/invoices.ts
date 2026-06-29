@@ -1,5 +1,9 @@
 import { apiRequest } from '@/api/http'
-import type { Invoice } from '@/types/invoice'
+import type {
+  Invoice,
+  InvoiceWorkflowFormData,
+  InvoiceWorkflowUpdateResult,
+} from '@/types/invoice'
 import type { PaginatedResponse } from '@/types/pagination'
 import type { PeriodDateRange } from '@/types/period-filter'
 
@@ -35,5 +39,15 @@ export function fetchInvoice(id: string): Promise<Invoice> {
 export function createInvoiceFromJobCard(jobCardId: string): Promise<Invoice> {
   return apiRequest<Invoice>(`/invoices/from-job-card/${jobCardId}`, {
     method: 'POST',
+  })
+}
+
+export function updateInvoiceWorkflow(
+  id: string,
+  data: InvoiceWorkflowFormData,
+): Promise<InvoiceWorkflowUpdateResult> {
+  return apiRequest<InvoiceWorkflowUpdateResult>(`/invoices/${id}/workflow`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
   })
 }

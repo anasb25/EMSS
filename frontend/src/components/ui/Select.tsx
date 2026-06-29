@@ -1,7 +1,9 @@
 import {
   forwardRef,
+  useEffect,
   useId,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
   type SelectHTMLAttributes,
@@ -9,6 +11,7 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { FloatingPortal } from '@/components/ui/FloatingPortal'
 import { useFloatingPanel } from '@/hooks/useFloatingPanel'
+import { useListboxKeyboard } from '@/hooks/useListboxKeyboard'
 import styles from './Select.module.css'
 
 interface SelectOption {
@@ -44,9 +47,19 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     const generatedId = useId()
     const fieldId = id ?? name ?? generatedId
     const buttonRef = useRef<HTMLButtonElement>(null)
+    const optionRefs = useRef<Array<HTMLButtonElement | null>>([])
     const [isOpen, setIsOpen] = useState(false)
 
     useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement)
+
+    const listItems = useMemo(() => {
+      const items: SelectOption[] = []
+      if (placeholder) {
+        items.push({ value: '', label: placeholder })
+      }
+      items.push(...options)
+      return items
+    }, [options, placeholder])
 
     const { panelRef, panelStyle } = useFloatingPanel({
       isOpen,
@@ -62,6 +75,20 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       setIsOpen(false)
       buttonRef.current?.focus()
     }
+
+    const { highlightedIndex, setHighlightedIndex, handleKeyDown } = useListboxKeyboard({
+      isOpen,
+      setIsOpen,
+      itemCount: listItems.length,
+      onSelect: (index) => {
+        const item = listItems[index]
+        if (item) handleSelect(item.value)
+      },
+    })
+
+    useEffect(() => {
+      optionRefs.current[highlightedIndex]?.scrollIntoView({ block: 'nearest' })
+    }, [highlightedIndex, isOpen])
 
     return (
       <div className={[styles.field, className].filter(Boolean).join(' ')}>
@@ -98,6 +125,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
           onClick={() => {
             if (!disabled) setIsOpen((open) => !open)
           }}
+          onKeyDown={handleKeyDown}
         >
           <span
             className={[
@@ -125,32 +153,23 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
               className={styles.dropdown}
               role="listbox"
             >
-              {placeholder ? (
+              {listItems.map((option, index) => (
                 <button
-                  type="button"
-                  className={[
-                    styles.option,
-                    value === '' ? styles.optionSelected : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  onClick={() => handleSelect('')}
-                >
-                  {placeholder}
-                </button>
-              ) : null}
-              {options.map((option) => (
-                <button
-                  key={option.value}
+                  key={option.value || '__placeholder__'}
+                  ref={(element) => {
+                    optionRefs.current[index] = element
+                  }}
                   type="button"
                   role="option"
                   aria-selected={option.value === value}
                   className={[
                     styles.option,
                     option.value === value ? styles.optionSelected : '',
+                    index === highlightedIndex ? styles.optionHighlighted : '',
                   ]
                     .filter(Boolean)
                     .join(' ')}
+                  onMouseEnter={() => setHighlightedIndex(index)}
                   onClick={() => handleSelect(option.value)}
                 >
                   {option.label}

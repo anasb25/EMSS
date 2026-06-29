@@ -1,0 +1,28 @@
+.status,
+.error {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+.formCard,
+.blockedCard {
+  max-width: 52rem;
+}
+
+.blockedTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.blockedText {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
